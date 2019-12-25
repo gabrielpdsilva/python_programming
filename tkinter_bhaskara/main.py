@@ -1,22 +1,46 @@
 #https://www.youtube.com/watch?v=RBYbuL-eFbQ&list=PLXik_5Br-zO_m8NaaEix1pyQOsCZM7t1h&index=17
 
 from tkinter import *
+import tkinter.messagebox
 
-tela_inicial = Tk()
-tela_inicial.title("Fórmula de Bháskara")
+root_bhaskara = Tk()
+root_bhaskara.title("Fórmula de Bháskara")
 
 largura = 500
 altura = 250
 
-largura_tela = tela_inicial.winfo_screenwidth()
-altura_tela = tela_inicial.winfo_screenheight()
+largura_tela = root_bhaskara.winfo_screenwidth()
+altura_tela = root_bhaskara.winfo_screenheight()
 
 posicao_x = (largura_tela / 2) - (largura / 2)
 posicao_y = (altura_tela / 2 ) - (altura / 2)
 
-tela_inicial.geometry("%dx%d+%d+%d" % (largura, altura, posicao_x, posicao_y))
+root_bhaskara.geometry("%dx%d+%d+%d" % (largura, altura, posicao_x, posicao_y))
 
-def calcular():
+def apresentaInfoBhaskara():
+    tkinter.messagebox.showinfo("Sobre a fórmula",
+                                "A fórmula de Bhaskara é um método resolutivo para equações do segundo grau cujo nome homenageia o grande matemático indiano que a demonstrou. Essa fórmula nada mais é do que um método para encontrar as raízes reais de uma equação do segundo grau fazendo uso apenas de seus coeficientes. Vale lembrar que coeficiente é o número que multiplica uma incógnita em uma equação.")
+
+def encerrarAplicacao():
+    encerrar =  tkinter.messagebox.askquestion ('Encerrar aplicação','Tem certeza de que deseja encerrar a aplicação?')
+    if encerrar == 'yes':
+        tkinter.messagebox.showinfo('Encerrando aplicação','Clique em \"OK\" para encerrar a aplicação.')
+        root_bhaskara.destroy()
+        
+    #else:
+        #tkinter.messagebox.showinfo('Return','You will now return to the application screen')
+                                
+#***********************************************************************************************
+menu_tela_bhaskara = Menu(root_bhaskara)
+menu_opcoes_bhaskara = Menu(menu_tela_bhaskara, tearoff = 0)
+menu_opcoes_bhaskara.add_command(label = "Sobre a fórmula", command = apresentaInfoBhaskara)
+menu_opcoes_bhaskara.add_separator()
+menu_opcoes_bhaskara.add_command(label = "Menu principal")
+menu_opcoes_bhaskara.add_command(label = "Encerrar aplicação", command = encerrarAplicacao)
+menu_tela_bhaskara.add_cascade(label = "Opções", menu = menu_opcoes_bhaskara)
+root_bhaskara.config(menu = menu_tela_bhaskara)
+#***********************************************************************************************
+def calcularBhaskara():
 
     if (not var_a.get()) or (not var_b.get()) or (not var_c.get()):     #se o campo A ou B ou C está vazio
         label_info['text'] = "É necessário preencher todos os campos para continuar!"
@@ -45,20 +69,24 @@ def calcular():
 
     btn_calcular['state'] = DISABLED
     btn_reset['state'] = NORMAL
+#    txt_a.config(state = DISABLED)
+    txt_a['state'] = DISABLED
 
-def reset():
+def resetarCampos():
     label_delta_res['text'] = "-"
     label_x1_res['text'] = "-"
     label_x2_res['text'] = "-"
+    var_a.set("")
+    var_b.set("")
+    var_c.set("")
 
     btn_calcular['state'] = NORMAL
     btn_reset['state'] = DISABLED
+    label_info['text'] = "Digite os valores que deseja calcular..."
     #label_info.widget.grid_remove()
-
-
-
+    
 """
-label_titulo = Label(tela_inicial,
+label_titulo = Label(root_bhaskara,
                      text = "Software desenvolvido para calcular Bháskara.",
                      bg = "#363636",
                      fg = "#ffffff",
@@ -69,7 +97,7 @@ label_titulo = Label(tela_inicial,
                      ).grid(row = 0, column = 0)
 """
 
-label_titulo = Label(tela_inicial,
+label_titulo = Label(root_bhaskara,
                      text = "Software desenvolvido para calcular Bháskara.",
                      bg = "#363636",
                      fg = "#ffffff",
@@ -79,18 +107,44 @@ label_titulo = Label(tela_inicial,
 
 #=============================================================================
 
-label_a = Label(tela_inicial,
+label_a = Label(root_bhaskara,
                 text = "Valor de A:",
                 bg = "#363636",
                 fg = "#ffffff")
 label_a.grid(row = 1, column = 0, sticky = W)
 
+#Entry A
 var_a = StringVar()
-txt_a = Entry(tela_inicial, textvariable = var_a).grid(row = 1, column = 0)
+txt_a = Entry(root_bhaskara, textvariable = var_a).grid(row = 1, column = 0)
 
 #=============================================================================
 
-label_delta = Label(tela_inicial,
+label_b = Label(root_bhaskara,
+                text = "Valor de B:",
+                bg = "#363636",
+                fg = "#ffffff")
+
+label_b.grid(row = 2, sticky = W)
+
+#Entry B
+var_b = StringVar()
+txt_b = Entry(root_bhaskara, textvariable = var_b).grid(row = 2, column = 0)
+
+#=============================================================================
+
+label_c = Label(root_bhaskara,
+                text = "Valor de C:",
+                bg = "#363636",
+                fg = "#ffffff")
+
+label_c.grid(row = 3, sticky = W)
+
+#Entry C
+var_c = StringVar()
+txt_c = Entry(root_bhaskara, textvariable = var_c).grid(row = 3, column = 0)
+
+#=============================================================================
+label_delta = Label(root_bhaskara,
                 text = "Valor de delta : ",
                 bg = "#363636",
                 fg = "#ffffff")
@@ -99,7 +153,7 @@ label_delta.grid(row = 1, column = 1)
 
 #=============================================================================
 
-label_delta_res = Label(tela_inicial,
+label_delta_res = Label(root_bhaskara,
                 text = "-",
                 bg = "#363636",
                 fg = "#ffffff")
@@ -108,7 +162,7 @@ label_delta_res.grid(row = 1, column = 2)
 
 #=============================================================================
 
-label_x1 = Label(tela_inicial,
+label_x1 = Label(root_bhaskara,
                 text = "Valor de X¹ : ",
                 bg = "#363636",
                 fg = "#ffffff")
@@ -117,7 +171,7 @@ label_x1.grid(row = 2, column = 1)
 
 #=============================================================================
 
-label_x1_res = Label(tela_inicial,
+label_x1_res = Label(root_bhaskara,
                 text = "-",
                 bg = "#363636",
                 fg = "#ffffff")
@@ -126,7 +180,7 @@ label_x1_res.grid(row = 2, column = 2)
 
 #=============================================================================
 
-label_x2 = Label(tela_inicial,
+label_x2 = Label(root_bhaskara,
                 text = "Valor de X² : ",
                 bg = "#363636",
                 fg = "#ffffff")
@@ -135,56 +189,54 @@ label_x2.grid(row = 3, column = 1)
 
 #=============================================================================
 
-label_x2_res = Label(tela_inicial,
+label_x2_res = Label(root_bhaskara,
                 text = "-",
                 bg = "#363636",
                 fg = "#ffffff")
 
 label_x2_res.grid(row = 3, column = 2)
-
 #=============================================================================
 
-label_b = Label(tela_inicial,
-                text = "Valor de B:",
-                bg = "#363636",
-                fg = "#ffffff")
+#root_bhaskara.geometry("500x250+500+500")
 
-label_b.grid(row = 2, sticky = W)
-
-var_b = StringVar()
-txt_b = Entry(tela_inicial, textvariable = var_b).grid(row = 2, column = 0)
+root_bhaskara.resizable(0, 0) #indica que tanto largura quanto altura nao poderam ser redimensionadas
+#root_bhaskara.minsize(500, 250) #indica o minimo pra redimensionar a tela
+#root_bhaskara.maxsize(1000, 500) #indica o maximo pra redimensionar a tela
+#root_bhaskara.state("zoomed") #faz com que a tela seja automaticamente maximizada ao executar o programa
 
 #=============================================================================
-
-label_c = Label(tela_inicial,
-                text = "Valor de C:",
-                bg = "#363636",
-                fg = "#ffffff")
-
-label_c.grid(row = 3, sticky = W)
-
-var_c = StringVar()
-txt_c = Entry(tela_inicial, textvariable = var_c).grid(row = 3, column = 0)
-
-#=============================================================================
-
-#tela_inicial.geometry("500x250+500+500")
-
-tela_inicial.resizable(0, 0) #indica que tanto largura quanto altura nao poderam ser redimensionadas
-#tela_inicial.minsize(500, 250) #indica o minimo pra redimensionar a tela
-#tela_inicial.maxsize(1000, 500) #indica o maximo pra redimensionar a tela
-#tela_inicial.state("zoomed") #faz com que a tela seja automaticamente maximizada ao executar o programa
-
-#=============================================================================
-btn_calcular = Button(tela_inicial, text = "Calcular", command = calcular, state = NORMAL)
+btn_calcular = Button(root_bhaskara, text = "Calcular", command = calcularBhaskara, state = NORMAL)
 btn_calcular.grid(row = 4, column = 0)
 
-tela_inicial['bg'] = "#363636"
+root_bhaskara['bg'] = "#363636"
 
 #=============================================================================
-btn_reset = Button(tela_inicial, text = "Resetar", command = reset, state = DISABLED)
+btn_reset = Button(root_bhaskara, text = "Resetar", command = resetarCampos, state = DISABLED)
 btn_reset.grid(row = 4, column = 1)
 #=============================================================================
-label_info = Label(tela_inicial, text = "Digite os valores que deseja calcular...", fg = "red", bg = "#363636", font = "Arial 10 bold") #.grid(row = 5, column = center)
+label_info = Label(root_bhaskara,
+                    text = "Digite os valores que deseja calcular...",
+                    fg = "red",
+                    bg = "#363636",
+                    font = "Arial 10 bold") #.grid(row = 5, column = center)
+                    
 label_info.place(relx=0.5, rely=0.5, anchor=CENTER)
-tela_inicial.mainloop()
+#=============================================================================
+"""
+label_info = Message(root_bhaskara,
+                    text = "Digite os valores que deseja calcular...",
+                    fg = "red",
+                    bg = "#363636",
+                    width = 100,
+                    font = "Arial 10 bold") #.grid(row = 5, column = center)
+                    
+#label_info.place(relx=0.5, rely=0.5, anchor=CENTER)
+label_info.grid(row = 7, column = 1)
+#var_c = StringVar()
+#txt_c = Entry(root_bhaskara, textvariable = var_c).grid(row = 3, column = 0)
+"""
+#=============================================================================
+
+#msg = Message(root_bhaskara, text = "teste... saaaaa", width = 100)
+#msg.grid(row = 3, column = 1)
+root_bhaskara.mainloop()
