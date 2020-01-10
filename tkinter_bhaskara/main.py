@@ -17,6 +17,8 @@ posicao_y = (altura_tela / 2 ) - (altura / 2)
 
 root_bhaskara.geometry("%dx%d+%d+%d" % (largura, altura, posicao_x, posicao_y))
 
+nenhum_erro = "EXCEPT STATUS: Nenhum erro até o momento."
+
 #funcao pra apresentar info da formula de bhaskara
 def apresentaInfoBhaskara():
     tkinter.messagebox.showinfo("Sobre a fórmula",
@@ -44,36 +46,40 @@ root_bhaskara.config(menu = menu_tela_bhaskara)
 
 #funcao com a formula pra calcular bhaskara
 def calcularBhaskara():
+    try:
 
-    if (not var_a.get()) or (not var_b.get()) or (not var_c.get()):     #se o campo A ou B ou C está vazio
-        label_info['text'] = "É necessário preencher todos os campos para continuar!"
-        return
+        if (not var_a.get()) or (not var_b.get()) or (not var_c.get()):     #se o campo A ou B ou C está vazio
+            label_info['text'] = "É necessário preencher todos os campos para continuar!"
+            return
 
-    a = int(var_a.get())
-    b = int(var_b.get())
-    c = int(var_c.get())
+        a = int(var_a.get())
+        b = int(var_b.get())
+        c = int(var_c.get())
 
-    delta = (b * b) - (4 * a * c)
+        delta = (b * b) - (4 * a * c)
 
-    if(delta < 0):
-        label_delta_res['text'] = str(delta)
-        label_info['text'] = "Delta < 0, não é possível definir as raízes."
+        if(delta < 0):
+            label_delta_res['text'] = str(delta)
+            label_info['text'] = "Delta < 0, não é possível definir as raízes."
 
-    else:
-        x1 = (-b + (delta ** 0.5)) / (2 * a)
-        x2 = (-b - (delta ** 0.5)) / (2 * a)
+        else:
+            x1 = (-b + (delta ** 0.5)) / (2 * a)
+            x2 = (-b - (delta ** 0.5)) / (2 * a)
 
-        #print(btn_calcular.keys())
-        label_delta_res['text'] = str(delta)
-        label_x1_res['text'] = str(x1)
-        label_x2_res['text'] = str(x2)
+            #print(btn_calcular.keys())
+            label_delta_res['text'] = str(delta)
+            label_x1_res['text'] = str(x1)
+            label_x2_res['text'] = str(x2)
 
-    label_info['text'] = "Cálculo realizado com sucesso.\nAperte o botão \"Resetar\" para iniciar outro cálculo."
+        label_info['text'] = "Cálculo realizado com sucesso.\nAperte o botão \"Resetar\" para iniciar outro cálculo."
 
-    btn_calcular['state'] = DISABLED
-    btn_reset['state'] = NORMAL
-#    txt_a.config(state = DISABLED)
-    txt_a['state'] = DISABLED
+        btn_calcular['state'] = DISABLED
+        btn_reset['state'] = NORMAL
+    #    txt_a.config(state = DISABLED)
+        txt_a['state'] = DISABLED
+    except Exception as erro:
+        print("Ocorreu o seguinte erro: ", erro)
+        label_erro['text'] = ("EXCEPT STATUS: %s" % erro)
 
 def resetarCampos():
     label_delta_res['text'] = "-"
@@ -213,8 +219,10 @@ root_bhaskara.resizable(0, 0) #indica que tanto largura quanto altura nao podera
 #root_bhaskara.state("zoomed") #faz com que a tela seja automaticamente maximizada ao executar o programa
 
 #botao calcular
+#global btn_calcular
 btn_calcular = Button(root_bhaskara, text = "Calcular", command = calcularBhaskara, state = NORMAL)
 btn_calcular.grid(row = 4, column = 0)
+#btn_calcular.pack()
 
 root_bhaskara['bg'] = "#363636" #cor do background dessa tela
 
@@ -230,5 +238,14 @@ label_info = Label(root_bhaskara,
                     font = "Arial 10 bold") #.grid(row = 5, column = center)
 
 label_info.place(relx=0.5, rely=0.5, anchor=CENTER)
+
+#label de erro
+label_erro = Label(root_bhaskara,
+                    text = nenhum_erro,
+                    fg = "red",
+                    bg = "#363636",
+                    font = "Arial 10 bold")
+
+label_erro.place(relx=0.5, rely=0.9, anchor = CENTER)
 
 root_bhaskara.mainloop()
