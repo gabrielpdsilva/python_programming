@@ -1,8 +1,8 @@
 class Pessoa:
 
-    def __init__(self, nome):
+    def __init__(self, nome, idade):
         self.nome = nome
-        #self.idade = idade
+        self.idade = idade
 
     def info(self):
         print("\nDados de usuário:")

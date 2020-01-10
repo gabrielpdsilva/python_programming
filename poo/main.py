@@ -1,46 +1,19 @@
 from pessoa import Pessoa
 from aluno import Aluno
 
+print("""
+=======================================
+====CRIANDO OBJETOS AUTOMATICAMENTE====
+=======================================
+""")
+
 #mensagens de sucesso/erro
-arquivo_aberto = "===>>> O arquivo foi aberto com sucesso. <<<==="
+arquivo_aberto = "===>>> Os arquivos foram abertos com sucesso. <<<===\n"
 mensagem_de_erro = "Ocorrereram um ou mais erros durante a execução => "
 
-lista_de_pessoas = []
+lista_de_alunos = []
 
-###############################################################
-# LINK SOBRE MUDAR CORES DO TERMINAL DE UM PROGRAMA EM PYTHON #
-###############################################################
-#https://stackoverflow.com/questions/287871/how-to-print-colored-text-in-terminal-in-python?noredirect=1
 """
-import ctypes
-
-STD_OUTPUT_HANDLE = -11
-FOREGROUND_VERMELHO    = 0x0004 # texto vermelho
-FOREGROUND_AZUL_MARINHO    = 0x0003 # texto azul marinho
-FOREGROUND_VERDE    = 0x0002 # texto verde
-FOREGROUND_AZUL_ESCURO    = 0x0001 # texto azul escuro
-FOREGROUND_ROXO    = 0x0005 # texto roxo
-FOREGROUND_AMARELO    = 0x0006 # texto amarelo
-
-def get_csbi_attributes(handle):
-    # Based on IPython's winconsole.py, written by Alexander Belchenko
-    import struct
-    csbi = ctypes.create_string_buffer(22)
-    res = ctypes.windll.kernel32.GetConsoleScreenBufferInfo(handle, csbi)
-    assert res
-
-    (bufx, bufy, curx, cury, wattr,
-    left, top, right, bottom, maxx, maxy) = struct.unpack("hhhhHhhhhhh", csbi.raw)
-    return wattr
-
-def change_colors(text, color):
-    ctypes.windll.kernel32.SetConsoleTextAttribute(handle, color)
-    #print(text)
-    #ctypes.windll.kernel32.SetConsoleTextAttribute(handle, reset)
-
-handle = ctypes.windll.kernel32.GetStdHandle(STD_OUTPUT_HANDLE)
-reset = get_csbi_attributes(handle)
-
 #funcao pra abrir o arquivo
 def abrir_arquivo():
     try:
@@ -54,26 +27,27 @@ def abrir_arquivo():
 try:
 
     try:
-        lista = open('pessoas.txt')
-
-        #printa mensagem de sucesso em abrir o arquivo
-        #change_colors(arquivo_aberto, FOREGROUND_VERDE)
+        #abrindo arquivos
+        lista_de_nomes = open('pessoas.txt')
+        lista_de_idades = open('idades.txt')
         print(arquivo_aberto)
 
     except Exception as erro:
-        #printa mensagem de erro com cor vermelha
-        #change_colors((mensagem_de_erro, erro), FOREGROUND_VERMELHO)
         print(mensagem_de_erro, erro)
 
-    for nome in lista:
-        lista_de_pessoas.append(Aluno(nome))
-        print("O seguinte objeto foi adicionado: ", nome.rstrip('\n'))
+    for (nome, idade) in zip(lista_de_nomes, lista_de_idades):
+        #criando e adicionando os objetos na lista de alunos
+        lista_de_alunos.append(Aluno(nome, idade))
 
 except Exception as erro:
     #change_colors((mensagem_de_erro, erro), FOREGROUND_VERMELHO)
     print(mensagem_de_erro, erro)
 
-for pessoa in lista_de_pessoas:
-    print("Lista de pessoas -> ", pessoa.nome.rstrip('\n'))        #rstrip('\n') serve pra pular apenas uma linha a cada print, e não duas
+if not lista_de_alunos:
+    print("Nenhum objeto do tipo Aluno foi criado/inserido na lista.")
+else:
+    print("LISTA COMPLETA DE ALUNOS ATÉ O MOMENTO:\n")
+    for aluno in lista_de_alunos:
+        aluno.infoAluno()
 
-input("\nAperte ENTER pra sair")
+input("\nAperte ENTER para sair")
