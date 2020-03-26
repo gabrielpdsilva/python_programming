@@ -22,13 +22,13 @@ class Pilha:
         raise IndexError("Erro ao remover: a pilha está vazia.")
 
     #ver o topo da pilha
-    def verTopo(self):
+    def gettopo(self):
         if self.tamanho > 0:
             return str(self.topo.dado)
         raise IndexError("Erro ao ver topo: a pilha está vazia.") 
 
     #ver tamanho da pilha
-    def tamanhoPilha(self):
+    def gettamanho(self):
         return self.tamanho
 
     def listar(self):
