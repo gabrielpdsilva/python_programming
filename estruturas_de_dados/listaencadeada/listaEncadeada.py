@@ -60,6 +60,16 @@ class listaEncadeada:
         else:
             raise IndexError("Índice estourou o tamanho da lista.")
 
+    def buscar(self, elemento):
+        ponteiro = self.head 
+        i = 0
+        while(ponteiro):
+            if ponteiro.dado == elemento:
+                return i
+            ponteiro = ponteiro.proximo
+            i+=1
+        raise ValueError("O valor não encontrado.")
+
 #exemplo de uso
 """
 lista = listaEncadeada()
@@ -73,6 +83,7 @@ print(lista.get_item(1)) #4
 lista.set_item(0, True)
 
 print(lista.get_item(0)) #True
+print(lista.buscar(4))   # 1
 
 lista.remover()
 
