@@ -22,14 +22,14 @@ class Pilha:
         raise IndexError("Erro ao remover: a pilha está vazia.")
 
     #ver o topo da pilha
-    def gettopo(self):
+    def get_topo(self):
         if self.tamanho > 0:
             return str(self.topo.dado)
         raise IndexError("Erro ao ver topo: a pilha está vazia.") 
 
     #ver tamanho da pilha
-    def gettamanho(self):
-        return self.tamanho
+    def get_tamanho(self):
+        return str(self.tamanho)
 
     def listar(self):
         ponteiro = self.topo
@@ -50,7 +50,7 @@ p.listar() #lista todos os valores da pilha
 p.remover() #remove o valor 2.2
 
 print("\nTopo da pilha: " + p.verTopo()) #mostra o valor True
-print("Tamanho da pilha: " + str(p.tamanhoPilha())) #mostra 3
+print("Tamanho da pilha: " + p.tamanhoPilha()) #mostra 3
 input()
 
 """
